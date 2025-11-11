@@ -6,6 +6,7 @@ import xgboost as xgb
 import joblib
 import os
 from sklearn.preprocessing import LabelEncoder
+
 from .train import PoseClassifierModel
 
 # Using the config, train the pose classifier model.
@@ -75,7 +76,7 @@ class Training_And_Save_App:
 
 # ---- MAIN PROGRAM LOGIC ----    
 # Path variables
-save_path_for_direct_model_and_pose_label_encoder = r"S:\Documents\OpenCVApps\pose_estimation_rough\pose_model_pipeline\assets\classification_model"
+save_path_for_direct_model_and_pose_label_encoder = r"S:\Documents\OpenCVApps\pose_estimation_rough\assets\classification_model"
 
 training_images_dir = r"S:\Documents\OpenCVApps\pose_estimation_rough\train_pose_inference\pose_images"
 

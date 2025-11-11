@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from train_pose_inference.src import data_defs as defs
+from ....train_pose_inference.src import data_defs as defs
 
 class PoseLabelToDraw:
     """

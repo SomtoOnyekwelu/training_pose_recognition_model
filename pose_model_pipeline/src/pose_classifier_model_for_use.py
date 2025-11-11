@@ -2,7 +2,7 @@ import numpy as np
 import xgboost as xgb
 from sklearn.preprocessing import LabelEncoder
 
-from train_pose_inference.src import data_defs as defs
+from ...train_pose_inference.src import data_defs as defs
 
 class PoseClassifierModel_ForUse:
     """Instance of an already-trained direct_model and its label encoder"""

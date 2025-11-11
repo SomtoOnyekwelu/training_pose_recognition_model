@@ -4,11 +4,11 @@ import joblib
 import os
 from sklearn.preprocessing import LabelEncoder
 
-from .pose_classifier_model_for_use import PoseClassifierModel_ForUse # A trained model, to be instandtiated with the file path strings to xgb_model pkl and label_encoder.
-from train_pose_inference.src import landmarker_model as lm
-from train_pose_inference.src.landmarker_model import PoseLandmarkerModel
 from .data_classes.pose_label_to_draw import PoseLabelToDraw
-from train_pose_inference.src import data_defs as defs
+from .pose_classifier_model_for_use import PoseClassifierModel_ForUse # A trained model, to be instandtiated with the file path strings to xgb_model pkl and label_encoder.
+from ...train_pose_inference.src import landmarker_model as lm
+from ...train_pose_inference.src.landmarker_model import PoseLandmarkerModel
+from ...train_pose_inference.src import data_defs as defs
 
 class PoseInferencePipeline:
     """
