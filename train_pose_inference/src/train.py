@@ -11,8 +11,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score, classification_report
 
-from .processing import ProcessedLandmarks
-from . import data_defs as defs
+from pose_estimation_rough.train_pose_inference.src.processing import ProcessedLandmarks
+from pose_estimation_rough.train_pose_inference.src import data_defs as defs
 
 class PoseClassifierModel:
     """

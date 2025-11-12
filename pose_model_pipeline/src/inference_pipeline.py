@@ -3,12 +3,13 @@ import xgboost as xgb
 import joblib
 import os
 from sklearn.preprocessing import LabelEncoder
+import pathlib
 
-from .data_classes.pose_label_to_draw import PoseLabelToDraw
-from .pose_classifier_model_for_use import PoseClassifierModel_ForUse # A trained model, to be instandtiated with the file path strings to xgb_model pkl and label_encoder.
-from ...train_pose_inference.src import landmarker_model as lm
-from ...train_pose_inference.src.landmarker_model import PoseLandmarkerModel
-from ...train_pose_inference.src import data_defs as defs
+from pose_estimation_rough.pose_model_pipeline.src.data_classes.pose_label_to_draw import PoseLabelToDraw
+from pose_estimation_rough.pose_model_pipeline.src.pose_classifier_model_for_use import PoseClassifierModel_ForUse # A trained model, to be instandtiated with the file path strings to xgb_model pkl and label_encoder.
+from pose_estimation_rough.train_pose_inference.src import landmarker_model as lm
+from pose_estimation_rough.train_pose_inference.src.landmarker_model import PoseLandmarkerModel
+from pose_estimation_rough.train_pose_inference.src import data_defs as defs
 
 class PoseInferencePipeline:
     """
@@ -49,10 +50,17 @@ class PoseInferencePipeline:
         - placement position of the label on the image.
         """
 
-        all_OneSetOfLandmarks = self.pose_landmarker_model.production_convert_image_to_OneSetOfLandmarks(image)
+        # Error Handling: No person detected in the image
+        try:
+            all_OneSetOfLandmarks = self.pose_landmarker_model.production_convert_image_to_OneSetOfLandmarks(image)
+        except ValueError as e:
+            if "No person was detected in this image." in str(e):
+                return []
+            else:
+                raise e
 
         # Predict the pose labels and probabilities.
-        predicted_pose_labels, prob_of_predictions = self.loaded_pose_classifier_model. predict_pose_labels(all_OneSetOfLandmarks)
+        predicted_pose_labels, prob_of_predictions = self.loaded_pose_classifier_model.predict_pose_labels(all_OneSetOfLandmarks)
 
         # Extract the drawing coordinates for each PoseLabel
         # Task: Make the OneSetOfLandmarks class, add this normimg as attribute along with standard one, remove this. It causes two calls to model.
@@ -118,8 +126,8 @@ def extract_drawing_coords_for_each_PoseLabelToDraw(some_NormImgOneSetOfLandmark
 
 def load_saved_files(file_path: str):
     """Loads the object saved at the file_path"""
-
-    if not os.path.exists(file_path):
+    p = pathlib.Path(file_path)
+    if not p.exists():
         raise ValueError("The file_path does not exist.")
 
     loaded_file = joblib.load(file_path)

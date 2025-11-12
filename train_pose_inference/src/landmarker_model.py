@@ -7,15 +7,14 @@ Contains the:
 The expected output of calling an instantiated model (from this module) on an image is to get s OneSetOfLandmarks.
 
 """
-import os # Test
 import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 import numpy as np
 from math import sqrt
 
-from . import utils
-from . import data_defs as defs
+from pose_estimation_rough.train_pose_inference.src import utils
+from pose_estimation_rough.train_pose_inference.src import data_defs as defs
 
 class Source_PoseLandmarkerModel:
   """Initializes the Pose Landmarker model."""
@@ -98,8 +97,10 @@ class PoseLandmarkerModel:
     return one_or_several_NormImgOneSetOfLandmarks
 
 
+import config
+
 # STATIC CLASS VARIABLES AND METHODS (also includes for OneSetOfLandmarks)
-model_path = r"pose_estimation_rough\train_pose_inference\assets\pose_landmarker_lite.task"
+model_path = str(config.POSE_LANDMARKER_LITE_PATH)
 
 count_of_components_in_OneSetOfLandmarks = 33 # The number of pose points (e.g.: nose, right hip, etc) that the model outputs
 

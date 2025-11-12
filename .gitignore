@@ -1,0 +1,8 @@
+venv312/
+.vscode/
+.pytest_cache/
+.actual_pose_images/
+.*/
+GEMINI.md
+
+!.gitignore

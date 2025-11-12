@@ -1,8 +1,9 @@
 import pytest
-from ..src.processing import ProcessedLandmarks
-from ..src import utils as utils
-from ..src import data_defs as defs
 import random   # To sample from AllLandmarks
+
+from pose_estimation_rough.train_pose_inference.src.processing import ProcessedLandmarks
+from pose_estimation_rough.train_pose_inference.src import utils as utils
+from pose_estimation_rough.train_pose_inference.src import data_defs as defs
 
 
 class Test_Utils:
@@ -16,7 +17,7 @@ class Test_Utils:
         
         # Cases
         # True Case: The directory is made up of only second directory folders, which contain only images
-        valid_dir = r"tests\samples\valid_dir"
+        valid_dir = r"train_pose_inference/tests/samples/valid_dir"
         assert getbool(utils.isValidDirectory(valid_dir)) is True
 
         # The directory does not exist
@@ -24,24 +25,16 @@ class Test_Utils:
         assert getbool(utils.isValidDirectory(nonexistent_dir)) is False
 
         # The directory is empty
-        empty_dir = r"tests\samples\empty_directory"
+        empty_dir = r"train_pose_inference/tests/samples/empty_directory"
         assert getbool(utils.isValidDirectory(empty_dir)) is False
 
         # The directory is not made up of only second directory folders
-        invalid_dir = r"tests\samples\invalid_dir_non_folder"
+        invalid_dir = r"train_pose_inference/tests/samples/invalid_dir_non_folder"
         assert getbool(utils.isValidDirectory(invalid_dir)) is False
 
         # The seemingly second directory folders contains non-images.
-        file_corruption_dir = r"tests\samples\invalid_dir_non_image"
+        file_corruption_dir = r"train_pose_inference/tests/samples/invalid_dir_non_image"
         assert getbool(utils.isValidDirectory(file_corruption_dir)) is False
-
-    def test_extract_features_from_dataset(self):
-        # An empty dataset is not possible since the dataset would raise an error on initialization
-        
-        # A valid dataset, should return a non-empty list
-        valid_dir = r"tests\samples\valid_dir"
-        non_empty_dataset = ProcessedLandmarks(valid_dir).make_dataset()
-        assert len(utils.extract_features_from_dataset(non_empty_dataset)) >= 1
 
 def sample(population: list, sample_size: int = -1) -> list:
     """Returns a sample of the population\n

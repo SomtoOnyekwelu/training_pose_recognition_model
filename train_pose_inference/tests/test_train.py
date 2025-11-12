@@ -1,6 +1,7 @@
 import xgboost as xgb
 import pytest
-from src.train import PoseClassifierModel
+
+from pose_estimation_rough.train_pose_inference.src.train import PoseClassifierModel
 
 class test_train:
     def test_init(self):
@@ -12,7 +13,7 @@ class test_train:
 
         # Valid directory
         # Completes successfully
-        valid_dir = r"S:\Documents\OpenCVApps\pose_estimation_rough\train_pose_inference\test\samples\valid_dir"
+        valid_dir = r"train_pose_inference/tests/samples/valid_dir"
         self.test_model = PoseClassifierModel(valid_dir)
         assert self.test_model.directory == valid_dir
 

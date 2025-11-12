@@ -8,9 +8,11 @@ The function must meet all the criteria below:
 import os
 import cv2
 from math import sqrt
-from . import data_defs as defs
-from . import utils
-from . import landmarker_model as lm
+import pathlib
+
+from pose_estimation_rough.train_pose_inference.src import data_defs as defs
+from pose_estimation_rough.train_pose_inference.src import utils
+from pose_estimation_rough.train_pose_inference.src import landmarker_model as lm
 
 def isValidDirectory(absolute_directory: str) -> tuple:
     """
@@ -20,33 +22,31 @@ def isValidDirectory(absolute_directory: str) -> tuple:
         str: a message descrubing the cause of a False return. 
             If the return is True, it is an empty string
     """
+    p = pathlib.Path(absolute_directory)
     # The directory does not exist
-    if not os.path.exists(absolute_directory):
+    if not p.exists():
         return False, f"The directory does not exist: {absolute_directory}"
     
     # The so-called directory is not a folder
-    if not os.path.isdir(absolute_directory):
+    if not p.is_dir():
        return False, f"This path does not lead to a folder: {absolute_directory}"
     
     # Confirm that the directory is not empty
-    dir_contents = os.listdir(absolute_directory)
-    if dir_contents == []:
+    if not any(p.iterdir()):
         return False, f"The directory is empty: {absolute_directory}"
 
-    for sub_dir in dir_contents:
-        sub_dir_path = os.path.join(absolute_directory, sub_dir)
+    for sub_dir in p.iterdir():
         
         # Confirm that the first level of the directory is made up of only folders
-        if not os.path.isdir(sub_dir_path):
-            return False, f"There is a file instead of a subdirectory at {sub_dir_path}"
+        if not sub_dir.is_dir():
+            return False, f"There is a file instead of a subdirectory at {sub_dir}"
         
         # Confirm that each sub-dir contains only valid images.
-        for filename in os.listdir(sub_dir_path):
-            filename_path = os.path.join(sub_dir_path, filename)
+        for filename in sub_dir.iterdir():
 
             # Confirm that each subdirectory does not contain non-images
-            if not filename.lower().endswith(("png", "jpg", "jpeg")):
-                return False, f"Non-image file seen at {filename_path}"
+            if not str(filename).lower().endswith(("png", "jpg", "jpeg")):
+                return False, f"Non-image file seen at {filename}"
 
     # If the structure is a Directory-of-subdirectories, return True and an empty message    
     return True, ""
@@ -74,6 +74,7 @@ def image_paths_and_labels_in_directory(directory: str) -> tuple[list[str], list
     """
     paths_for_all_images = []
     pose_labels_for_all_images = []
+    p = pathlib.Path(directory)
 
     # # Do not process an invalid directory.
     # # Checks for corrupt files, etc.
@@ -83,16 +84,13 @@ def image_paths_and_labels_in_directory(directory: str) -> tuple[list[str], list
 
     # Iterate through the directory, where:
     # Each subdirectory corresponds to a class
-    for class_subdir in os.listdir(directory):
-      # Access each sub-directory
-      sub_dir_path = os.path.join(directory, class_subdir)
+    for class_subdir in p.iterdir():
       
-      for filename in os.listdir(sub_dir_path):
+      for filename in class_subdir.iterdir():
         # Process each file
-        filename_path = os.path.join(sub_dir_path, filename)
 
-        paths_for_all_images.append(filename_path)
-        pose_labels_for_all_images.append(class_subdir)
+        paths_for_all_images.append(str(filename))
+        pose_labels_for_all_images.append(class_subdir.name)
 
     return paths_for_all_images, pose_labels_for_all_images
 
@@ -149,17 +147,17 @@ def get_next_xyz_and_rest_of_OneSetOfLandmarks(part_of_an_OneSetOfLandmarks: lis
     
     return x, y, z, remainder
 
-def list_dir_as_abs_paths(path: str) -> list[str]:
+def list_dir(path: str) -> list[str]:
   """Lists all the paths of the files within the directory.
   The path does not need be the Directory datatype."""
 
   paths_for_all_files = []
+  p = pathlib.Path(path)
 
   # Iterate through the directory, where:
-  for filename in os.listdir(path):
+  for filename in p.iterdir():
     # Process each file
-    filename_path = os.path.join(path, filename)
 
-    paths_for_all_files.append(filename_path)
+    paths_for_all_files.append(str(filename.resolve()))
     
   return paths_for_all_files

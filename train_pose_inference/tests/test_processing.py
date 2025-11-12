@@ -1,19 +1,20 @@
 import pytest
 import numpy as np
 from math import sqrt
-import src.processing as proc
-from src.processing import ProcessedLandmarks
-import src.utils as utils
-import src.data_defs as defs
-import src.landmarker_model as lm
-import tests.test_utils as tutils
-
 from mpl_toolkits.mplot3d import Axes3D
-
 from types import SimpleNamespace   # For monkey patching of tests.
 from typing import Optional # For static typing in function contracts.
 import matplotlib
 matplotlib.use('Agg')   # To avoid Tcl errors when testing
+
+from pose_estimation_rough import config
+from pose_estimation_rough.train_pose_inference.src import processing as proc
+from pose_estimation_rough.train_pose_inference.src.processing import ProcessedLandmarks
+from pose_estimation_rough.train_pose_inference.src import utils as utils
+from pose_estimation_rough.train_pose_inference.src import data_defs as defs
+from pose_estimation_rough.train_pose_inference.src import landmarker_model as lm
+from pose_estimation_rough.train_pose_inference.tests import test_utils as tutils
+
 
 """
 DATA DEFINITIONS
@@ -102,35 +103,6 @@ class Test_processing:
         return True
     
     # ---- MAIN FUNCTIONS
-
-    def test_make_dataset(self):
-        """Test the command to create landmarks from a directory string"""
-        # Test that the dataset is saved 
-
-        # Test that the features are normalized
-        ## Initialize testing variables
-        test_directory = r"tests\samples\valid_dir"
-        test_dataset = ProcessedLandmarks(test_directory).make_dataset()
-        all_landmarks = utils.extract_features_from_dataset(test_dataset)
-
-        ## Define a sample to avoid the inefficiency of testing for every dataset
-        sample_landmarks = self._sample_landmarks(all_landmarks)
-
-        ## Check that the features are translated properly, a
-        ## and remain so even after scaling and rotation
-        assert self._is_center_at_zero(sample_landmarks)
-
-        ## Test for proper scaling
-        ## that is, the size of each set of landmarks is constant within some level
-        assert self._is_size_consistent(sample_landmarks)
-
-        ## Test for proper rotation
-        ### that is, the shoulders form a horozontal line
-        assert self._are_shoulders_horozontal(sample_landmarks)
-
-    def test_convert_image_to_landmark(self):
-        # Task
-        None
         
 class Test_convert_directory_to_landmarks:
     """
@@ -179,7 +151,7 @@ class Test_convert_directory_to_landmarks:
         """Case: self.directory contains only one sub-directory and is a valid directory. 
         Should always return a tuple, containing the AllLandmarks and the list of all labels, with only one unique label"""
         # The directory is a valid directory, even down to the subdirectries and their contents
-        valid_directory_with_one_subdir = r"tests\samples\valid_dir_one_subdir"
+        valid_directory_with_one_subdir = str(config.PROJECT_ROOT / "train_pose_inference" / "tests" / "samples" / "valid_dir_one_subdir")
         result_landmarks, result_pose_lables = ProcessedLandmarks(valid_directory_with_one_subdir).convert_directory_to_landmarks()
 
         # Checks that there is only one unique pose label and, the length of the result_landmarks and the result_pose_lables are equal.
@@ -195,7 +167,7 @@ class Test_convert_directory_to_landmarks:
         """Case: self.directory contains only one sub-directory and is an invalid directory.\n
         It should raise an error."""
         # The directory is an invalid directory, such as containing a corrupted file or a phote in the sub-directory level.
-        invalid_directory_with_one_subdir = r"tests\samples\invalid_dir_one_subdir"
+        invalid_directory_with_one_subdir = str(config.PROJECT_ROOT / "train_pose_inference" / "tests" / "samples" / "invalid_dir_one_subdir")
         with pytest.raises(AssertionError):
             ProcessedLandmarks(invalid_directory_with_one_subdir).convert_directory_to_landmarks()
     
@@ -203,7 +175,8 @@ class Test_convert_directory_to_landmarks:
         """Case: self.directory contains multiple sub-directories and is a valid directory. 
         Should always return a tuple, containing the AllLandmarks and the list of all labels, with multiple unique labels."""
         # The directory is a valid directory, even down to the subdirectries and their contents
-        valid_directory_with_three_subdir = r"tests\samples\valid_dir_three_subdir"
+        valid_directory_with_three_subdir = str(config.PROJECT_ROOT / "train_pose_inference" / "tests" / "samples" / "valid_dir_three_subdir")
+    
         result_landmarks, result_pose_lables = ProcessedLandmarks(valid_directory_with_three_subdir).convert_directory_to_landmarks()
 
         # Checks that there are only three unique pose labels and, the length of the result_landmarks and the result_pose_lables are equal.
@@ -217,7 +190,8 @@ class Test_convert_directory_to_landmarks:
         """Case: self.directory contains multiple sub-directories and is an invalid directory.\n
         It should raise an error."""
         # The directory is an invalid directory, such as containing a corrupted file or a phote in the sub-directory level.
-        invalid_directory_with_three_subdir = r"tests\samples\invalid_dir_three_subdir"
+        invalid_directory_with_three_subdir = str(config.PROJECT_ROOT / "train_pose_inference" / "tests" / "samples" / "invalid_dir_three_subdir")
+
         with pytest.raises(AssertionError):
             ProcessedLandmarks(invalid_directory_with_three_subdir).convert_directory_to_landmarks()
         
@@ -710,10 +684,18 @@ class Test__next_idx_of_keypress:
         with pytest.raises(AssertionError):
             proc._next_idx_of_keypress(self.invalid_direction, example_valid_idx, length)
     
+# Prospective tests for normalization pipeline for datasets
+    #     ## Check that the features are translated properly, a
+    #     ## and remain so even after scaling and rotation
+    #     assert self._is_center_at_zero(sample_landmarks)
 
-    
+    #     ## Test for proper scaling
+    #     ## that is, the size of each set of landmarks is constant within some level
+    #     assert self._is_size_consistent(sample_landmarks)
 
-
+    #     ## Test for proper rotation
+    #     ### that is, the shoulders form a horozontal line
+    #     assert self._are_shoulders_horozontal(sample_landmarks)
 
 
 

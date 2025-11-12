@@ -7,7 +7,7 @@ import joblib
 import os
 from sklearn.preprocessing import LabelEncoder
 
-from .train import PoseClassifierModel
+from pose_estimation_rough.train_pose_inference.src.train import PoseClassifierModel
 
 # Using the config, train the pose classifier model.
 # Train the pose classifier model
@@ -22,6 +22,14 @@ class Training_And_Save_App:
         - training_directory is the path to the Directory (as defined in data_defs) of images that would be used in training the direct_model.
         
         - save_directory is the path where the direct_model and its label encoder would be saved for use in downstream tasks."""
+
+        # Error Handling: Non-existent Source Directory
+        if not os.path.exists(training_directory):
+            raise ValueError(f"This directory at this path does not exist: {training_directory}")
+
+        # Error Handling: Invalid Save Path
+        if not os.path.exists(save_directory):
+            raise ValueError(f"This save path does not exist: {save_directory}")
 
         self.source_directory = training_directory
         self.save_directory = save_directory
@@ -38,8 +46,8 @@ class Training_And_Save_App:
         pose_label_encoder = pose_classifier_and_pose_label_encoder.pose_label_encoder
 
         self.save_direct_model_and_label_encoder(save_directory, direct_model, pose_label_encoder)
-
         print(f"The model and its label encoder has been saved successfully at {save_directory}")
+
 
     def produce_model(self, to_print_model_evaluation: bool) -> PoseClassifierModel:
         """Fits a model on the landmarks derived from the directory images
@@ -63,7 +71,7 @@ class Training_And_Save_App:
     
     def save_direct_model_and_label_encoder(self, save_path: str, direct_model: xgb.XGBClassifier, pose_label_encoder: LabelEncoder) -> None:
         """Saves the direct_model and label encoder as files for later use at the save directory.
-        """
+        """        
         # Save the direct_model to the path.
         direct_model_save_path = os.path.join(save_path, r"direct_model.pkl")
 
@@ -74,12 +82,14 @@ class Training_And_Save_App:
 
         joblib.dump(pose_label_encoder, pose_label_encoder_save_path)
 
-# ---- MAIN PROGRAM LOGIC ----    
-# Path variables
-save_path_for_direct_model_and_pose_label_encoder = r"S:\Documents\OpenCVApps\pose_estimation_rough\assets\classification_model"
+# ---- MAIN PROGRAM LOGIC ----
+import config
 
-training_images_dir = r"S:\Documents\OpenCVApps\pose_estimation_rough\train_pose_inference\pose_images"
+# Path variables
+save_path_for_direct_model_and_pose_label_encoder = config.CLASSIFICATION_MODEL_DIR
+training_images_dir = config.PROJECT_ROOT / "train_pose_inference" / "pose_images"
 
 # Train the direct_model on the directory of images
 # Then, save the model to the save_directory.
-model_package = Training_And_Save_App(training_images_dir, save_path_for_direct_model_and_pose_label_encoder, True)
+if __name__ == "__main__":
+    model_package = Training_And_Save_App(str(training_images_dir), str(save_path_for_direct_model_and_pose_label_encoder), True)

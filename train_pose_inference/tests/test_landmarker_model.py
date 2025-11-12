@@ -1,17 +1,20 @@
-from ..src import landmarker_model as lm
-from ..src import processing as proc
-from ..src import data_defs as defs
-from ..src import utils as utils
-from . import config as tc
-from . import test_utils as tutils
 import pytest
+
+import pose_estimation_rough.config as config
+from pose_estimation_rough.train_pose_inference.src import landmarker_model as lm
+from pose_estimation_rough.train_pose_inference.src import processing as proc
+from pose_estimation_rough.train_pose_inference.src import data_defs as defs
+from pose_estimation_rough.train_pose_inference.src import utils as utils
+from pose_estimation_rough.train_pose_inference.tests import config as tc
+from pose_estimation_rough.train_pose_inference.tests import test_utils as tutils
+
 
 """Tests the sub functions"""
 landmarker_model = lm.PoseLandmarkerModel().model
 
-test_image_full_path = r"train_pose_inference\tests\samples\valid_dir\Boxing\boxing1.jpg"
+test_image_full_path = config.PROJECT_ROOT / "train_pose_inference" / "tests" / "samples" / "valid_dir" / "Boxing" / "boxing1.jpg"
 
-test_image_rgb = utils.read_image_at_path(test_image_full_path)
+test_image_rgb = utils.read_image_at_path(str(test_image_full_path))
 real_OneSetOfLandmarks = lm.convert_image_to_landmarks(landmarker_model, test_image_rgb)
 
 zero_OneSetOfLandmarks = [0.0] * (33 * 4)    # MediaPipe predicts for 33 Landmark Components. Each Component is composed of x, y, z, and presence 

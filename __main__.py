@@ -1,8 +1,8 @@
 import cv2
 import pathlib
 
-from .pose_model_pipeline.src.inference_pipeline import PoseInferencePipeline
-from .pose_model_pipeline.src.data_classes.pose_label_to_draw import draw_list_of_PoseLabelToDraw_on_frame
+from pose_estimation_rough.pose_model_pipeline.src.inference_pipeline import PoseInferencePipeline
+from pose_estimation_rough.pose_model_pipeline.src.data_classes.pose_label_to_draw import draw_list_of_PoseLabelToDraw_on_frame
 
 class RealtimePoseInferenceApp:
     """An app that runs a pose inference model over live-streamed images of the camera."""
@@ -77,16 +77,13 @@ class RealtimePoseInferenceApp:
         
         return False
 
+from . import config
+
 # Execute when the file is run.
-ABS_DIR_OF_THIS_SCRIPT = pathlib.Path(__file__).parent.absolute()
-
-path_to_direct_model = str(ABS_DIR_OF_THIS_SCRIPT / r"assets\classification_model\direct_model.pkl")
-path_to_pose_label_encoder = str(ABS_DIR_OF_THIS_SCRIPT / r"assets\classification_model\pose_label_encoder.pkl")
-
 if __name__ == "__main__":
     RealtimePoseInferenceApp(
-        path_to_direct_model,
-        path_to_pose_label_encoder,
+        str(config.DIRECT_MODEL_PATH),
+        str(config.POSE_LABEL_ENCODER_PATH),
         frame_width=680,
         frame_height=480,
         window_name="Real-Time Pose App"

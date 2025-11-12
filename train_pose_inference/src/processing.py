@@ -20,10 +20,10 @@ from mpl_toolkits.mplot3d.art3d import Path3DCollection
 from matplotlib.lines import Line2D
 from mpl_toolkits.mplot3d import Axes3D
 
-from . import landmarker_model as lm
-from . import utils as utils
-from . import data_defs as defs
-from . import config
+from pose_estimation_rough.train_pose_inference.src import landmarker_model as lm
+from pose_estimation_rough.train_pose_inference.src import utils as utils
+from pose_estimation_rough.train_pose_inference.src import data_defs as defs
+from pose_estimation_rough.train_pose_inference.src import config
 
 idx_of_PlotTuple_on_display = 0
 
