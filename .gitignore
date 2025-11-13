@@ -6,3 +6,4 @@ venv312/
 GEMINI.md
 
 !.gitignore
+!.vscode/
