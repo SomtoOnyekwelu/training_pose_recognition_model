@@ -1,10 +1,10 @@
-# Pose_Inference: A Real-time Pose Estimation and Classification Framework
+# Pose_Inference: A Real-time Pose Classification Framework
 
 Pose_Inference is a framework for building custom pose-based applications, such as exercise analysis systems. It enables users to run real-time pose inference using a pre-trained model and also allows them to train a custom pose inference model on their own dataset. 
-Developed with a focus on robust testing, this project is intended to serve as a reliable foundation for more complex downstream tasks.
+Developed with a focus on robust testing, this project is intended to serve as a reliable foundation for more complex tasks based on pose prediction.
 
-## Pose Estimation Demo
-To be added.
+## Pose Estimation Demo Video
+<iframe width="560" height="315" src="https://www.youtube.com/embed/5zruC2FnAPU?si=SO6Botx7U51agk_P" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ---
 
