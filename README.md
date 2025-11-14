@@ -4,7 +4,11 @@ Pose_Inference is a framework for building custom pose-based applications, such 
 Developed with a focus on robust testing, this project is intended to serve as a reliable foundation for more complex tasks based on pose prediction.
 
 ## Pose Estimation Demo Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/5zruC2FnAPU?si=SO6Botx7U51agk_P" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+Click the image below to watch the demo video on YouTube:
+
+<a href="https://youtu.be/5zruC2FnAPU" target="_blank" rel="noopener noreferrer">
+  <img src="https://img.youtube.com/vi/5zruC2FnAPU/hqdefault.jpg" width="600" alt="Watch on YouTube — 5zruC2FnAPU" />
+</a>
 
 ---
 
