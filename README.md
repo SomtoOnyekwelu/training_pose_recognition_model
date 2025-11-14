@@ -1,10 +1,10 @@
-# Pose Estimation and Classification Framework
+# Pose_Inference: A Real-time Pose Estimation and Classification Framework
 
-This project is a framework for building custom pose-based applications, such as exercise analysis systems. It enables users to run real-time pose inference using a pre-trained model and also allows them to train a custom pose inference model on their own dataset. 
+Pose_Inference is a framework for building custom pose-based applications, such as exercise analysis systems. It enables users to run real-time pose inference using a pre-trained model and also allows them to train a custom pose inference model on their own dataset. 
 Developed with a focus on robust testing, this project is intended to serve as a reliable foundation for more complex downstream tasks.
 
-![Pose Estimation Demo](https://i.imgur.com/UkHk2IF.gif)
-*(This is a placeholder GIF. You can replace the link with a screen recording of your application.)*
+## Pose Estimation Demo
+To be added.
 
 ---
 
@@ -20,7 +20,8 @@ Developed with a focus on robust testing, this project is intended to serve as a
 
 ## Project Overview
 
-This project provides a complete pipeline for pose estimation and classification. It uses a webcam for real-time video capture, detects human poses using MediaPipe, and classifies them into predefined categories using a trained XGBoost model. The framework is modular, separating the inference pipeline from the training process, and includes a comprehensive test suite to ensure reliability.
+This project provides a complete pipeline for real-time and efficient pose estimation and classification. It uses a webcam for real-time video capture, detects human poses using MediaPipe, and classifies them into predefined categories using a trained XGBoost model. The framework is modular, separating the inference pipeline from the training process, and includes a comprehensive test suite to ensure reliability.
+It can run smoothly on an Intel Celeron CPU, without a GPU.
 
 ## Features
 
@@ -71,7 +72,7 @@ Follow these steps to run the real-time pose classification demo.
 1.  **Clone the Repository:**
     First, create an empty folder on your local machine and clone the project into it.
     ```bash
-    git clone <your-repository-url>
+    git clone https://github.com/SomtoOnyekwelu/training_pose_recognition_model
     ```
 
 2.  **Navigate to the Parent Directory:**
