@@ -5,7 +5,6 @@ The function must meet all the criteria below:
 - Furthermore, the function does not process any custom datatype like OneSetOfLandmarks or AllLandmarks.
 """
 
-import os
 import cv2
 from math import sqrt
 import pathlib

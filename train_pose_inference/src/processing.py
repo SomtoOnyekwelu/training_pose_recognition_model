@@ -6,10 +6,8 @@ The function must be involved in one of the following:
 - processing the OneSetOfLandmarks custom data type (for now, until refactoring into new file (can't stay in same file as others due to static reasons)) <more at landmarker_model.py>.
 """
 
-import cv2
 import numpy as np
 import mediapipe as mp
-import os
 import matplotlib.pyplot as plt # For visualizing the points.
 from functools import partial # For the Keyboard event handler
 from typing import Optional # For static typing, starting from the core helper function of Key event handler
@@ -25,7 +23,7 @@ from pose_estimation_rough.train_pose_inference.src import utils as utils
 from pose_estimation_rough.train_pose_inference.src import data_defs as defs
 from pose_estimation_rough.train_pose_inference.src import config
 
-idx_of_PlotTuple_on_display = 0
+idx_of_PlotTuple_on_display = 0 # Task: Remove this global variable, by encapsulating it in a visualiser class, along with the dataset visualization feature.
 
 class ProcessedLandmarks:
   """This class would initialized in two ways: through a directory str or through an already processed CSV file.
