@@ -1,6 +1,6 @@
 import cv2
-import pathlib
 
+import pose_estimation_rough.config as config
 from pose_estimation_rough.pose_model_pipeline.src.inference_pipeline import PoseInferencePipeline
 from pose_estimation_rough.pose_model_pipeline.src.data_classes.pose_label_to_draw import draw_list_of_PoseLabelToDraw_on_frame
 
@@ -16,6 +16,8 @@ class RealtimePoseInferenceApp:
 
     def run(self, frame_width: int, frame_height: int, window_name: str):
         """Starts the inference over the camera stream and shows the results as video in a new window."""
+
+        self.show_boot_message()
 
         cap = cv2.VideoCapture(0)
 
@@ -76,8 +78,11 @@ class RealtimePoseInferenceApp:
             return True
         
         return False
+    
+    def show_boot_message(self):
+        """Prints a message to the screen, informing the user that the application is now running."""
 
-from . import config
+        print("-----------------\nThe program is now running.\nKindly check your task bar if the video stream does not pop-up.\n-----------------")
 
 # Execute when the file is run.
 if __name__ == "__main__":

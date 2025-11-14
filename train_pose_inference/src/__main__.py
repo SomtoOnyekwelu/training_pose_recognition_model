@@ -7,6 +7,7 @@ import joblib
 import os
 from sklearn.preprocessing import LabelEncoder
 
+import pose_estimation_rough.config as config
 from pose_estimation_rough.train_pose_inference.src.train import PoseClassifierModel
 
 # Using the config, train the pose classifier model.
@@ -46,8 +47,17 @@ class Training_And_Save_App:
         pose_label_encoder = pose_classifier_and_pose_label_encoder.pose_label_encoder
 
         self.save_direct_model_and_label_encoder(save_directory, direct_model, pose_label_encoder)
+        self.show_success_msg(save_directory)
+        self.show_next_step_msg()
+    
+    def show_success_msg(self, save_directory: str):
+        """Displays the success message for model training and saving."""
         print(f"The model and its label encoder has been saved successfully at {save_directory}")
+        print(f"If you want a more performant model (e.gs.: accuracy, recall), you can increase your dataset using the performance report or implement feature engineering in the preprocessing pipeline.")
 
+    def show_next_step_msg(self):
+        print("----------------")
+        print("Next step: To run the pose inference app using your model, simply run this entire project as a module. See the documentation for more details.")
 
     def produce_model(self, to_print_model_evaluation: bool) -> PoseClassifierModel:
         """Fits a model on the landmarks derived from the directory images
@@ -83,7 +93,6 @@ class Training_And_Save_App:
         joblib.dump(pose_label_encoder, pose_label_encoder_save_path)
 
 # ---- MAIN PROGRAM LOGIC ----
-import config
 
 # Path variables
 save_path_for_direct_model_and_pose_label_encoder = config.CLASSIFICATION_MODEL_DIR

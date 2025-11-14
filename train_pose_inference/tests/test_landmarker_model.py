@@ -65,7 +65,7 @@ def test_extract_landmark_component_xyz():
     # The benchmark values were gotten by running the commented test_print() function
     assert lm.extract_landmark_component_xyz(real_OneSetOfLandmarks, "nose") == pytest.approx((0.049, -0.63, -0.17), rel=1e-1)
 
-def test_raises_error_extract_landmark_component_xyz():
+def test_raises_error_extracttest_error_multiple_persons_convert_image_to_landmark_landmark_component_xyz():
     """Check that an error is raised for an invalid landmark component name not in lm.PoseLandmarkerModel.map_of_keypoint_names_to_idx
     """
     with pytest.raises(KeyError):

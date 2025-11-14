@@ -13,6 +13,7 @@ from mediapipe.tasks.python import vision
 import numpy as np
 from math import sqrt
 
+import pose_estimation_rough.config as config
 from pose_estimation_rough.train_pose_inference.src import utils
 from pose_estimation_rough.train_pose_inference.src import data_defs as defs
 
@@ -95,9 +96,6 @@ class PoseLandmarkerModel:
     one_or_several_NormImgOneSetOfLandmarks = general_convert_image_to_landmarks(self.model, an_image, self.max_detection_count, reference = "image")
 
     return one_or_several_NormImgOneSetOfLandmarks
-
-
-import config
 
 # STATIC CLASS VARIABLES AND METHODS (also includes for OneSetOfLandmarks)
 model_path = str(config.POSE_LANDMARKER_LITE_PATH)

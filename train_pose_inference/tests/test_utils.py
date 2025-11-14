@@ -1,40 +1,44 @@
 import pytest
 import random   # To sample from AllLandmarks
 
+import pose_estimation_rough.train_pose_inference.tests.config as tc
 from pose_estimation_rough.train_pose_inference.src.processing import ProcessedLandmarks
 from pose_estimation_rough.train_pose_inference.src import utils as utils
 from pose_estimation_rough.train_pose_inference.src import data_defs as defs
 
 
-class Test_Utils:
-    def test_isValidDirectory(self):
-        
-        # ---- HELPER FUNCTION
-        def getbool(func_output: tuple) -> bool:
+class Test_isValidDirectory:
+    # ---- HELPER FUNCTION
+    def getbool(self, func_output: tuple) -> bool:
             """Extracts the boolean part of the output returned by the tested function
             Based on the output of the isValidDirectory function"""
             return func_output[0]
         
-        # Cases
+    # Cases
+    def test_valid_dir(self):
         # True Case: The directory is made up of only second directory folders, which contain only images
-        valid_dir = r"train_pose_inference/tests/samples/valid_dir"
-        assert getbool(utils.isValidDirectory(valid_dir)) is True
+        valid_dir = tc.valid_dir
+        assert self.getbool(utils.isValidDirectory(valid_dir)) is True
 
+    def test_nonexistent_dir(self):
         # The directory does not exist
         nonexistent_dir = r"does_not_exist"
-        assert getbool(utils.isValidDirectory(nonexistent_dir)) is False
+        assert self.getbool(utils.isValidDirectory(nonexistent_dir)) is False
 
+    def test_empty_dir(self):
         # The directory is empty
-        empty_dir = r"train_pose_inference/tests/samples/empty_directory"
-        assert getbool(utils.isValidDirectory(empty_dir)) is False
+        empty_dir = str(tc.ROOT_OF_TEST_DIR / "samples" / "empty_directory")
+        assert self.getbool(utils.isValidDirectory(empty_dir)) is False
 
+    def test_invalid_dir_not_only_dirs_at_top_level(self):
         # The directory is not made up of only second directory folders
-        invalid_dir = r"train_pose_inference/tests/samples/invalid_dir_non_folder"
-        assert getbool(utils.isValidDirectory(invalid_dir)) is False
+        invalid_dir = str(tc.ROOT_OF_TEST_DIR / "samples" / "invalid_dir_non_folder")
+        assert self.getbool(utils.isValidDirectory(invalid_dir)) is False
 
+    def test_invalid_dir_non_image_file(self):
         # The seemingly second directory folders contains non-images.
-        file_corruption_dir = r"train_pose_inference/tests/samples/invalid_dir_non_image"
-        assert getbool(utils.isValidDirectory(file_corruption_dir)) is False
+        file_corruption_dir = str(tc.ROOT_OF_TEST_DIR / "samples" / "invalid_dir_non_image")
+        assert self.getbool(utils.isValidDirectory(file_corruption_dir)) is False
 
 def sample(population: list, sample_size: int = -1) -> list:
     """Returns a sample of the population\n
@@ -85,12 +89,7 @@ class Test_get_next_xyz_and_rest_of_OneSetOfLandmarks:
         assert output == (0.1, 0.2, 0.3, [0.1, 0.2, 0.3, 0.4] * 2)
     
 class Test_convert_image_paths_to_OneSetOfLandmarks:
-    """Tests the function that converts the image paths to an OneSetOfLandmarks"""
-
-    # Task
-
-# class Test_
-
+    """Task: Tests the function that converts the image paths to an OneSetOfLandmarks"""
 
 
     

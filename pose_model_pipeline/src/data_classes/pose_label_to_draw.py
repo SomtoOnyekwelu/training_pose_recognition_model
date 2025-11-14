@@ -24,8 +24,6 @@ class PoseLabelToDraw:
         coords or normalized coords in [0..1]."""
         x_raw, y_raw = self.xy_coord_to_draw_on_source_frame
 
-        print(self.xy_coord_to_draw_on_source_frame)
-
         h, w = frame.shape[:2]
 
         # If coords look normalized (0..1), convert to pixel coords
